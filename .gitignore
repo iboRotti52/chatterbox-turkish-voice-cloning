@@ -1,0 +1,39 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+.venv/
+chatterbox-v3/.venv/
+chatterbox-v3/chatterbox-source/
+chatterbox-v3/hf-cache/
+chatterbox-v3/torch-cache/
+chatterbox-v3/pkuseg-cache/
+
+# Kişisel/biyometrik referans kayıtları
+chatterbox-v3/inputs/*
+!chatterbox-v3/inputs/.gitkeep
+
+# Üretilen sesler
+outputs/*
+!outputs/.gitkeep
+
+# Başka bir klasöre yanlışlıkla bırakılan sesler de yüklenmesin.
+*.wav
+*.m4a
+*.mp3
+*.flac
+*.aac
+*.ogg
+
+# Büyük model/checkpoint dosyaları
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
