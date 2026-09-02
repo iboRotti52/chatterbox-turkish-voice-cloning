@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: Turkish Zero-shot TTS Gateway
+  version: 1.0.0
+paths:
+  /api/tts:
+    post:
+      summary: Türkçe metni referans sese benzer biçimde seslendirir
+      operationId: createTurkishSpeech
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [text, reference, consent]
+              properties:
+                text:
+                  type: string
+                  minLength: 1
+                  maxLength: 500
+                reference:
+                  type: string
+                  format: binary
+                  description: WAV, MP3, M4A, MP4 veya WEBM; en fazla 15 MB ve 3–45 saniye
+                consent:
+                  type: string
+                  enum: ['true']
+      responses:
+        '200':
+          description: Üretilen mono 24 kHz WAV
+          headers:
+            X-TTS-API-Version:
+              schema: { type: string, const: '1' }
+          content:
+            audio/wav:
+              schema: { type: string, format: binary }
+        '400':
+          description: Geçersiz kullanıcı girdisi
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '502':
+          description: GPU servisine ulaşılamadı
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '504':
+          description: Ses üretimi zaman aşımına uğradı
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+components:
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string }

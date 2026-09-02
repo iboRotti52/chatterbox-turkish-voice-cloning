@@ -6,6 +6,21 @@ Bunu denemek için Resemble AI'ın açık kaynaklı [Chatterbox Multilingual V3]
 
 Bu repo, o deneme sürecinin temizlenmiş ve başkasının bilgisayarında yeniden kurulabilir hâlidir. Modeli eğitmez; verdiğiniz kısa kaydı o anda analiz ederek yeni metni benzer bir sesle okur. Buna **zero-shot voice cloning** deniyor.
 
+## Web demosu ve Modal servisi
+
+Repo artık aynı akışı küçük, taşınabilir bir web demosu olarak da içerir:
+
+- `web/`: metin ve referans ses alan, sonucu oynatıp indiren tek sayfalı arayüz
+- `web/app/api/tts/route.ts`: tarayıcı ile GPU servisi arasındaki sunucu tarafı adaptör
+- `modal_service/`: Chatterbox V3'ü L4 GPU üzerinde bir kez yükleyip istekleri işleyen Modal servisi
+- `docs/WEB_DEMO_SPEC.md`: alternatifler, güvenlik sınırları, API sözleşmesi ve kabul kriterleri
+- `integration/`: başka bir frontend'e kopyalanabilen tarayıcı, Next.js ve Cloudflare Worker adaptörleri
+- `docs/FRONTEND_INTEGRATION_GUIDE.md`: ana site ekibinin uygulayacağı adım adım entegrasyon rehberi
+
+Arayüz yalnızca aynı-origin `/api/tts` sözleşmesini bilir. Bu nedenle demo ana ürüne taşınırken form bileşeni korunabilir; Modal yerine başka bir çıkarım sağlayıcısı kullanılacaksa yalnızca adaptör değiştirilir. Referans sesler ve çıktılar kalıcı olarak saklanmaz.
+
+Ana site entegrasyonu için başlangıç noktası [Frontend Entegrasyon Rehberi](docs/FRONTEND_INTEGRATION_GUIDE.md) dosyasıdır. Modal erişim anahtarları frontend'e verilmez; ana sitenin sunucu fonksiyonunda veya ayrı edge adaptöründe secret olarak tutulur.
+
 En kısa hâliyle çalışma şekli şöyle:
 
 ```text
@@ -48,7 +63,7 @@ Bu yaklaşım hızlı deneme yapmayı kolaylaştırır. Buna karşılık, yalnı
 - Kişinin sesini kullanarak yeni bir model eğitmez.
 - Kaydı otomatik olarak buluta yükleyen bir servis değildir; mevcut kullanım yereldir.
 - Her seste kusursuz sonuç vereceğini garanti eden tamamlanmış bir ürün değildir.
-- Şimdilik web arayüzü veya API servisi değildir; komut satırından çalışan bir deney ve geliştirme projesidir.
+- Tam bir kullanıcı/ödeme sistemi değildir; web demosu ve taşınabilir API adaptörü küçük ölçekli deneme ve entegrasyon içindir.
 
 ## Şu anda ne yapabiliyor?
 
